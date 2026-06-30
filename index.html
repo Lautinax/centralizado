@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control SAP Logística</title>
+    <style>
+        :root {
+            --bg-sidebar: #1e293b;
+            --bg-active: #38bdf8;
+            --text-color: #f8fafc;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #f1f5f9;
+        }
+        /* Menú Lateral */
+        .sidebar {
+            width: 280px;
+            background-color: var(--bg-sidebar);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            background-color: #0f172a;
+            font-size: 16px;
+            font-weight: bold;
+            border-bottom: 1px solid #334155;
+            letter-spacing: 0.5px;
+        }
+        .menu-options {
+            flex-grow: 1;
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .menu-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            padding: 14px 15px;
+            text-align: left;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+        .menu-btn:hover {
+            background-color: #334155;
+            color: #fff;
+        }
+        .menu-btn.active {
+            background-color: var(--bg-active);
+            color: #0f172a;
+            font-weight: bold;
+        }
+        /* Contenedor Principal (Iframe) */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            📊 CENTRAL DE HERRAMIENTAS
+        </div>
+        <div class="menu-options">
+            <button class="menu-btn active" onclick="cargarApp(this, 'https://lautinax.github.io/va05/')">
+                📦 Generador VA05
+            </button>
+            <button class="menu-btn" onclick="cargarApp(this, 'https://lautinax.github.io/descuento/')">
+                📊 Procesador de Pedidos
+            </button>
+            <button class="menu-btn" onclick="cargarApp(this, 'https://lautinax.github.io/laburo/')">
+                💰 Descuentos SAP
+            </button>
+            <button class="menu-btn" onclick="cargarApp(this, 'https://lautinax.github.io/pedido-en-preparacion/')">
+                🚚 Panel de Entregas
+            </button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <iframe id="pantalla-interna" src="https://TU-USUARIO.github.io/REPO-VA05/"></iframe>
+    </div>
+
+    <script>
+        function cargarApp(boton, url) {
+            // Cambia el destino del iframe al link seleccionado
+            document.getElementById('pantalla-interna').src = url;
+
+            // Cambia la clase activa al botón presionado
+            const botones = document.querySelectorAll('.menu-btn');
+            botones.forEach(btn => btn.classList.remove('active'));
+            boton.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
