@@ -107,10 +107,8 @@
 
     <script>
         function cargarApp(boton, url) {
-            // Cambia el destino del iframe al link seleccionado
             document.getElementById('pantalla-interna').src = url;
 
-            // Cambia la clase activa al botón presionado
             const botones = document.querySelectorAll('.menu-btn');
             botones.forEach(btn => btn.classList.remove('active'));
             boton.classList.add('active');
