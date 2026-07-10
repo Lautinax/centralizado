@@ -527,6 +527,10 @@
                 <span class="icon-wrap"><i class="fa-solid fa-truck-ramp-box"></i></span>
                 <span class="label">Pedidos en preparación</span>
             </button>
+            <button class="menu-btn" onclick="cargarApp(this, 'https://lautinax.github.io/retiros-Andreani-/')">
+                <span class="icon-wrap"><i class="fa-solid fa-truck-moving"></i></span>
+                <span class="label">Retiros Andreani</span>
+            </button>
         </div>
 
         <div class="sidebar-footer">
@@ -565,12 +569,10 @@
         </div>
     </div>
 
-    <!-- BOTÓN FLOTANTE -->
     <button class="floating-notes-trigger" onclick="toggleNotes(true)" title="Control de Pendientes">
         <i class="fa-solid fa-clipboard-check"></i>
     </button>
 
-    <!-- PANEL INTERACTIVO DE TAREAS -->
     <div class="notes-drawer" id="notesDrawer">
         <div class="notes-header">
             <h3><i class="fa-solid fa-list-check" style="color: var(--accent); margin-right: 8px;"></i> Control de Pendientes</h3>
@@ -583,8 +585,7 @@
             </div>
             
             <ul class="todo-list" id="todoList">
-                <!-- Las tareas se inyectan acá dinámicamente -->
-            </ul>
+                </ul>
 
             <div class="notes-footer-text"><i class="fa-solid fa-shield-halved"></i> Datos locales de esta PC</div>
         </div>
