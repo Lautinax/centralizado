@@ -289,6 +289,7 @@
         padding: 20px 28px 28px 28px;
         min-height: 0;
         display: flex;
+        position: relative;
     }
     .frame-card {
         position: relative;
@@ -299,11 +300,18 @@
         overflow: hidden;
         border: 1px solid #e3e8f0;
     }
-    iframe {
+    
+    /* Contenedores de iframes con carga diferida */
+    .app-frame {
+        position: absolute;
+        inset: 0;
         width: 100%;
         height: 100%;
         border: none;
         background: white;
+        display: none;
+    }
+    .app-frame.active {
         display: block;
     }
 
@@ -401,7 +409,6 @@
     
     .notes-body { flex-grow: 1; padding: 20px; display: flex; flex-direction: column; gap: 16px; overflow: hidden; }
     
-    /* Input para agregar tarea */
     .todo-input-group {
         display: flex; gap: 8px;
     }
@@ -419,7 +426,6 @@
     }
     .todo-add-btn:hover { opacity: 0.9; }
 
-    /* Lista de tareas */
     .todo-list {
         flex-grow: 1; overflow-y: auto; list-style: none;
         display: flex; flex-direction: column; gap: 10px; padding-right: 4px;
@@ -431,7 +437,6 @@
     }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     
-    /* Estados de Alerta y Completado */
     .todo-item.high-priority {
         border-color: rgba(245, 158, 11, 0.4);
         background: rgba(245, 158, 11, 0.06);
@@ -452,7 +457,6 @@
         word-break: break-word;
     }
     
-    /* Acciones dentro de la tarea */
     .todo-actions { display: flex; gap: 6px; }
     .todo-action-btn {
         background: transparent; border: none; font-size: 12px; cursor: pointer;
@@ -465,7 +469,6 @@
 
     .notes-footer-text { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: auto; }
     
-    /* Botón flotante */
     .floating-notes-trigger {
         position: fixed; bottom: 24px; right: 24px;
         width: 50px; height: 50px; border-radius: 50%;
@@ -478,7 +481,6 @@
         transform: scale(1.05); box-shadow: 0 8px 24px rgba(45, 212, 191, 0.5);
     }
 
-    /* ===== RESPONSIVE ===== */
     @media (max-width: 880px) {
         .sidebar {
             position: fixed; top: 0; bottom: 0; left: 0; margin-left: -290px; box-shadow: none;
@@ -514,23 +516,23 @@
 
         <div class="menu-section-label">Procesos</div>
         <div class="menu-options">
-            <button class="menu-btn active" onclick="cargarApp(this, 'https://lautinax.github.io/va05/')">
+            <button class="menu-btn active" onclick="cargarApp(this, 'frame1', 'https://lautinax.github.io/va05/')">
                 <span class="icon-wrap"><i class="fa-solid fa-box-archive"></i></span>
                 <span class="label">Para enviar a back office</span>
             </button>
-            <button class="menu-btn" onclick="cargarApp(this, 'https://lautinax.github.io/descuento/')">
+            <button class="menu-btn" onclick="cargarApp(this, 'frame2', 'https://lautinax.github.io/descuento/')">
                 <span class="icon-wrap"><i class="fa-solid fa-percent"></i></span>
                 <span class="label">Aplicar Descuento omitidos</span>
             </button>
-            <button class="menu-btn" onclick="cargarApp(this, 'https://lautinax.github.io/laburo/')">
+            <button class="menu-btn" onclick="cargarApp(this, 'frame3', 'https://lautinax.github.io/laburo/')">
                 <span class="icon-wrap"><i class="fa-solid fa-sack-dollar"></i></span>
                 <span class="label">Detalles de pedidos sin procesar</span>
             </button>
-            <button class="menu-btn" onclick="cargarApp(this, 'https://lautinax.github.io/pedido-en-preparacion/')">
+            <button class="menu-btn" onclick="cargarApp(this, 'frame4', 'https://lautinax.github.io/pedido-en-preparacion/')">
                 <span class="icon-wrap"><i class="fa-solid fa-truck-ramp-box"></i></span>
                 <span class="label">Reporte de pendientes</span>
             </button>
-            <button class="menu-btn" onclick="cargarApp(this, 'https://lautinax.github.io/retiros-Andreani-/')">
+            <button class="menu-btn" onclick="cargarApp(this, 'frame5', 'https://lautinax.github.io/retiros-Andreani-/')">
                 <span class="icon-wrap"><i class="fa-solid fa-truck-moving"></i></span>
                 <span class="label">Retiros Andreani</span>
             </button>
@@ -563,11 +565,17 @@
         <div class="frame-area">
             <div class="frame-card">
                 <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
-                <div class="loading-overlay" id="loadingOverlay">
+                <div class="loading-overlay show" id="loadingOverlay">
                     <div class="spinner"></div>
                     <div class="loading-text">Cargando módulo...</div>
                 </div>
-                <iframe id="pantalla-interna" src="https://lautinax.github.io/va05/"></iframe>
+                
+                <!-- IFRAMES CON CARGA DIFERIDA (DATA-SRC): Solo cargan cuando hacés clic por primera vez. Luego quedan guardados en memoria. -->
+                <iframe id="frame1" class="app-frame active" data-src="https://lautinax.github.io/va05/" src="https://lautinax.github.io/va05/"></iframe>
+                <iframe id="frame2" class="app-frame" data-src="https://lautinax.github.io/descuento/"></iframe>
+                <iframe id="frame3" class="app-frame" data-src="https://lautinax.github.io/laburo/"></iframe>
+                <iframe id="frame4" class="app-frame" data-src="https://lautinax.github.io/pedido-en-preparacion/"></iframe>
+                <iframe id="frame5" class="app-frame" data-src="https://lautinax.github.io/retiros-Andreani-/"></iframe>
             </div>
         </div>
     </div>
@@ -587,18 +595,16 @@
                 <button class="todo-add-btn" onclick="addTarea()"><i class="fa-solid fa-plus"></i></button>
             </div>
             
-            <ul class="todo-list" id="todoList">
-                </ul>
+            <ul class="todo-list" id="todoList"></ul>
 
             <div class="notes-footer-text"><i class="fa-solid fa-shield-halved"></i> Datos locales de esta PC</div>
         </div>
     </div>
 
     <script>
-        let urlActual = 'https://lautinax.github.io/va05/';
+        let frameActualId = 'frame1';
         let listaTareas = [];
 
-        // Inicializar y cargar desde localStorage al arrancar
         document.addEventListener('DOMContentLoaded', () => {
             const guardadas = localStorage.getItem('sap_panel_todos');
             if (guardadas) {
@@ -606,9 +612,15 @@
                 renderTareas();
             }
 
-            // Permitir agregar con la tecla Enter
             document.getElementById('todoInput').addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') addTarea();
+            });
+
+            // Configurar eventos de carga para todos los iframes para apagar el cartel de carga
+            document.querySelectorAll('.app-frame').forEach(frame => {
+                frame.addEventListener('load', () => {
+                    setTimeout(ocultarCarga, 250);
+                });
             });
         });
 
@@ -681,10 +693,23 @@
             });
         }
 
-        function cargarApp(boton, url) {
-            urlActual = url;
-            mostrarCarga();
-            document.getElementById('pantalla-interna').src = url;
+        function cargarApp(boton, frameId, url) {
+            frameActualId = frameId;
+            const frame = document.getElementById(frameId);
+
+            // Carga diferida inteligente: Solo descarga de GitHub la primera vez que se hace clic
+            if (!frame.src && frame.getAttribute('data-src')) {
+                mostrarCarga();
+                frame.src = frame.getAttribute('data-src');
+            } else {
+                // Si ya estaba cargado, entra instantáneamente sin demoras
+                mostrarCarga();
+                setTimeout(ocultarCarga, 150);
+            }
+
+            // Ocultar todos los iframes y mostrar el seleccionado
+            document.querySelectorAll('.app-frame').forEach(f => f.classList.remove('active'));
+            frame.classList.add('active');
 
             const botones = document.querySelectorAll('.menu-btn');
             botones.forEach(btn => btn.classList.remove('active'));
@@ -708,15 +733,12 @@
             document.getElementById('loadingOverlay').classList.remove('show');
         }
 
-        document.getElementById('pantalla-interna').addEventListener('load', () => {
-            setTimeout(ocultarCarga, 250);
-        });
-
         function recargarActual() {
             const btn = document.getElementById('refreshBtn');
             btn.classList.add('spinning');
             mostrarCarga();
-            document.getElementById('pantalla-interna').src = urlActual;
+            const frameActivo = document.getElementById(frameActualId);
+            frameActivo.src = frameActivo.src;
             setTimeout(() => btn.classList.remove('spinning'), 650);
         }
 
